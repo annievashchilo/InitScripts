@@ -4,9 +4,9 @@ DESC="Selenium Grid Server"
 RUN_AS="selenium"
 JAVA_BIN="/usr/bin/java"
  
-SELENIUM_DIR="/automation/00007167/TestAutomationFramework/selenium-taf"
+SELENIUM_DIR="~/Projects/selenium_python/"
 PID_FILE="$SELENIUM_DIR/selenium-grid.pid"
-JAR_FILE="$SELENIUM_DIR/selenium-server-standalone.jar"
+JAR_FILE="$SELENIUM_DIR/selenium-server.jar"
 LOG_DIR="/var/log/selenium"
 LOG_FILE="${LOG_DIR}/selenium-grid.log"
  
@@ -24,14 +24,14 @@ do
     esac
 done
  
-DAEMON_OPTS=" $MAX_MEMORY $STACK_SIZE -jar $JAR_FILE -role hub -port $PORT -hubConfig hubconfig.json
+DAEMON_OPTS=" $MAX_MEMORY $STACK_SIZE -jar $JAR_FILE -role hub -port $PORT"
  
 NAME="selenium"
  
 if [ "$1" != status ]; then
     if [ ! -d ${LOG_DIR} ]; then
         mkdir --mode 750 --parents ${LOG_DIR}
-        chown ${USER}:${GROUP} ${LOG_DIR}
+        #chown ${USER}:${GROUP} ${LOG_DIR}
     fi  
 fi
  
