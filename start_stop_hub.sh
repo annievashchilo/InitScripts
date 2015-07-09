@@ -18,11 +18,23 @@ do
 done
 
 
+show_status() {
+    result=$(ps -ef | grep -v grep | grep "selenium-server.jar -role hub" | awk '{print $14}')
+    for str in ${result}
+    do
+        if [ $str ]; then
+            echo "Selenium Hub is running on $str port"
+        else
+            echo "No launched Selenium Node"
+        fi 
+    done
+}
+
 case $COMMAND in
     start)
         echo -n "Starting $DESC: "
 
-        if java -jar $JAR_FILE -role hub -$PORT; then
+        if $(terminal -e 'java -jar $JAR_FILE -role hub -port $PORT'); then
             echo "0"
         else
             echo "1"
@@ -36,14 +48,18 @@ case $COMMAND in
         
         if kill $result; then
             echo "Stopped $DESC $HOST:$PORT: 0"
+            show_status
         else 
             echo "Not stopped $DESC $HOST:$PORT: 1"
             exit 1
         fi
         ;;
+    status)
+        show_status    
+        ;;
 
     *)
-        echo "Usage: -p NODE_PORT -H HUBURL -c COMMAND {start|stop}" >&2
+        echo "Usage: -p HUB_PORT -H HUB_IP -c COMMAND {start|stop|status}" >&2
         exit 1
         ;;
 esac

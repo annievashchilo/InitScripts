@@ -75,3 +75,4 @@ case $COMMAND in
         echo "Usage: $N -p HUB_PORT -c COMMAND {start|stop|restart|force-reload|status}" >&2
         exit 1
         ;;
+esac
